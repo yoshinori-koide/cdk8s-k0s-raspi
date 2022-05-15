@@ -11,5 +11,5 @@ export class MyChart extends Chart {
 }
 
 const app = new App();
-new MyChart(app, 'cdk8s-k0s-raspi-bk');
+new MyChart(app, 'cdk8s-k0s-raspi');
 app.synth();
