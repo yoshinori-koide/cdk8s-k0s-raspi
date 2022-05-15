@@ -1,14 +1,5 @@
-# cdk8s-k0s-raspi
-ラズパイ上のk0sをcdk8sで管理してみる
-
-
-# cdk8s comment
-
-```
-> cdk8s synth
-
-dist/cdk8s-k0s-raspi-bk.k8s.yaml
 ========================================================================================================
+
  Your cdk8s typescript project is ready!
 
    cat help         Print this message
@@ -30,4 +21,3 @@ dist/cdk8s-k0s-raspi-bk.k8s.yaml
    npm run upgrade:next  Upgrade cdk8s modules to latest "@next" version (last commit)
 
 ========================================================================================================
-```
