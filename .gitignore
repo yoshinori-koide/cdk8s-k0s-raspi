@@ -108,3 +108,5 @@ dist
 !jest.config.js
 node_modules
 dist/
+
+config.yaml

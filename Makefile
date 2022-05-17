@@ -35,7 +35,7 @@ init:				## Init Typescript project
 .PHONY: gen-kubeconfig
 gen-kubeconfig:		## Generate a kubuconfig yaml
 	sudo k0s kubeconfig create --groups "system:masters" k0s > config.yaml
-	KUBECONFIG=$(pwd)/config.yaml kubectl create clusterrolebinding k0s-admin-binding --clusterrole=admin --user=k0s
+	KUBECONFIG=$$(pwd)/config.yaml kubectl create clusterrolebinding k0s-admin-binding --clusterrole=admin --user=k0s
 
 .PHONY: compile
 compile:			## Compile ts to js
