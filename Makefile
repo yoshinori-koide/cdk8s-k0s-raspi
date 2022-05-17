@@ -3,26 +3,17 @@
 help: ## <Default> Display this help 
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: setup-k0s
-setup-k0s:			## Install K0s AS A Service
-	sudo k0s install controller --single
-
-.PHONY: up
-up:					## Start K0s Service
-	sudo k0s start
+.PHONY: inst-k3s
+inst-k3s:			## Install k3s
+	curl -sfL https://get.k3s.io | sh -
 
 .PHONY: down
-down:				## Start K0s Service
-	sudo k0s stop
+down:				## Stop k3s processes
+	k3s-killall.sh
 
-.PHONY: reset-k0s
-reset-k0s:			## Reset K0s Service
-	sudo k0s reset
-
-.PHONY: upgrade-k0s
-upgrade-k0s:		## Upgrade K0s
-	sudo k0s stop || true
-	curl -sSLf https://get.k0s.sh | sudo sh
+.PHONY: uninst-k3s
+uninst-k3s:			## Uninstall K3s bin
+	k3s-uninstall.sh
 
 .PHONY: inst-ckd8s
 inst-ckd8s:			## Install Cdk8s CLI
@@ -31,11 +22,6 @@ inst-ckd8s:			## Install Cdk8s CLI
 .PHONY: init
 init:				## Init Typescript project
 	cdk8s init typescript-app
-
-.PHONY: gen-kubeconfig
-gen-kubeconfig:		## Generate a kubuconfig yaml
-	sudo k0s kubeconfig create --groups "system:masters" k0s > config.yaml
-	KUBECONFIG=$$(pwd)/config.yaml kubectl create clusterrolebinding k0s-admin-binding --clusterrole=admin --user=k0s
 
 .PHONY: compile
 compile:			## Compile ts to js
@@ -55,4 +41,4 @@ synth:				## Synthesize k8s manifests from charts to dist/ (ready for 'kubectl a
 
 .PHONY: deploy
 deploy:				## Deploy Project Files to K8s
-	KUBECONFIG=$(pwd)/config.yaml kubectl apply -f dist/
+	sudo kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml apply -f dist/
